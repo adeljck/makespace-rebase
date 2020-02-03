@@ -8,6 +8,6 @@ import (
 
 func Init() {
 	godotenv.Load()
-	module.Database(os.Getenv("MySQL_DSN"))
+	module.Database(os.Getenv("MYSQL_DSN"))
 	module.CheckAdmin()
 }

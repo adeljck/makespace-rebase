@@ -123,7 +123,7 @@ func (service *UserRegiste) Registe() (module.User, *serializer.Response) {
 			Msg:    "password encode failed",
 		}
 	}
-	if affected, err := module.DB.InsertOne(user); err != nil || affected == 0 {
+	if affected, err := module.DB.Insert(user); err != nil || affected == 0 {
 		return user, &serializer.Response{
 			Status: 40002,
 			Msg:    "注册失败",
