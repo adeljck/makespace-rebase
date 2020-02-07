@@ -36,7 +36,7 @@ func Database(connString string) {
 		db.Logger().SetLevel(core.LOG_DEBUG)
 	}
 	//设置缓存
-	db.SetDefaultCacher(xorm.NewLRUCacher(xorm.NewMemoryStore(), 1000))
+	//db.SetDefaultCacher(xorm.NewLRUCacher(xorm.NewMemoryStore(), 1000))
 	//设置连接池
 	//空闲
 	db.SetMaxIdleConns(20)

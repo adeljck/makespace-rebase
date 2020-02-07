@@ -3,6 +3,8 @@ package api
 import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
+	"makespace-remaster/middleware"
+	"makespace-remaster/module"
 	"makespace-remaster/serializer"
 )
 
@@ -26,4 +28,17 @@ func ErrorResponse(err error) serializer.Response {
 		Status: 40001,
 		Msg:    "参数错误",
 	}
+}
+
+func CheckAuth(c *gin.Context, token string) {
+	var user module.User
+	j := middleware.NewJWT()
+	userid, _ := j.ParseToken(token)
+	module.DB.Cols("role_id").Where("id=?", userid.Id).Get(&user)
+	if user.RoleId == module.Unauthorized {
+
+		c.Abort()
+		return
+	}
+	c.Next()
 }

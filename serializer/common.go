@@ -7,6 +7,12 @@ type Response struct {
 	Msg    string      `json:"msg"`
 }
 
+//PURE ERROR Resopnse
+type PureErrorResponse struct {
+	Status int    `json:"status"`
+	Msg    string `json:"msg"`
+}
+
 // DataList 基础列表结构
 type DataList struct {
 	Items interface{} `json:"items"`

@@ -5,13 +5,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"makespace-remaster/api"
 	"makespace-remaster/middleware"
-	"os"
 	"time"
 )
 
 func NewRouter() *gin.Engine {
 	r := gin.Default()
-	r.Use(middleware.Session(os.Getenv("SIGNED")))
 	r.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
 		return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
 			param.ClientIP,
@@ -27,10 +25,13 @@ func NewRouter() *gin.Engine {
 	}))
 	v1 := r.Group("api/v1/")
 	{
+		v1.GET("/ping", api.Ping)
 		v1.POST("/user/registe", api.UserRegiste)
-		authed := v1.Group("/", middleware.AuthRequired())
+		v1.POST("/user/login", api.UserLogin)
+		authed := v1.Group("/", middleware.JWTAuth())
 		{
-			authed.POST("/user/confirm", api.Ping)
+			authed.POST("/user/confirm/:type", api.Userconfirm)
+			authed.POST("/user/logout", api.UserLogout)
 		}
 	}
 	return r

@@ -26,11 +26,11 @@ func AuthRequired() gin.HandlerFunc {
 	}
 }
 
-func SaveAuthSession(c *gin.Context, username string) sessions.Session {
+func SaveAuthSession(c *gin.Context, username string) {
 	session := sessions.Default(c)
+	session.Clear()
 	session.Set("username", username)
 	session.Save()
-	return session
 }
 func ClearAuthSession(c *gin.Context) {
 	session := sessions.Default(c)
